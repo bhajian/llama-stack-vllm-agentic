@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  vllm:
+    image: vllm/vllm-openai:latest
+    command: >
+      --model meta-llama/Meta-Llama-3-8B-Instruct
+      --dtype float16
+      --port 8000
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTORCH_CUDA_ALLOC_CONF=max_split_size_mb:128
+      - HUGGING_FACE_HUB_TOKEN=${HF_TOKEN}
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+    volumes:
+      - ./checkpoints:/root/.cache/huggingface/hub
+

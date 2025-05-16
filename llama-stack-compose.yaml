@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  llama-stack:
+    image: llamastack/distribution-remote-vllm:latest
+    container_name: llama-stack
+    ports:
+      - "${LLAMA_STACK_PORT}:${LLAMA_STACK_PORT}"
+    volumes:
+      - ./run.yaml:/root/my-run.yaml
+    environment:
+      - INFERENCE_MODEL=${INFERENCE_MODEL}
+      - VLLM_URL=${VLLM_URL}
+    command: >
+      --yaml-config /root/my-run.yaml
+      --port ${LLAMA_STACK_PORT}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+
