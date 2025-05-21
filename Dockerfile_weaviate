@@ -1,0 +1,4 @@
+FROM llamastack/distribution-remote-vllm:latest
+
+RUN pip install weaviate-client
+

@@ -2,12 +2,14 @@ version: "3.8"
 
 services:
   llama-stack:
-    image: llamastack/distribution-remote-vllm:latest
+    build:
+      context: .
+      dockerfile: Dockerfile_weaviate
     container_name: llama-stack
     ports:
       - "${LLAMA_STACK_PORT}:${LLAMA_STACK_PORT}"
     volumes:
-      - ./run.yaml:/root/my-run.yaml
+      - ./run2.yaml:/root/my-run.yaml
     environment:
       - INFERENCE_MODEL=${INFERENCE_MODEL}
       - VLLM_URL=${VLLM_URL}
